@@ -97,7 +97,7 @@ export class Scene {
   }
 
   handleClick(mouse) {
-    const { showTitle, finished } = this.store.state;
+    const { showTitle } = this.store.state;
 
     this.raycaster.setFromCamera(mouse, this.camera);
     const intersects = this.raycaster.intersectObject(this.box);
@@ -109,7 +109,7 @@ export class Scene {
       return;
     }
 
-    if (!showTitle && !finished) {
+    if (!showTitle) {
       this.shake();
     }
   }
@@ -126,7 +126,7 @@ export class Scene {
     this.dispatch({
       ...this.store.state,
       waiting: false,
-      finished: false,
+      running: true,
       power: 50 + 50 * Math.random()
     });
   }

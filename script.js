@@ -53,7 +53,7 @@ const reducePower = timeStamp => {
   } else if (!waiting) {
     store.dispatch({
       ...store.state,
-      finished: true
+      running: false
     });
   }
 

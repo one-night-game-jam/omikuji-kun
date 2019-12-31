@@ -14,8 +14,8 @@ export class UI extends Component {
   }
 
   render() {
-    const { showTitle, waiting, finished } = this.state;
-    const showTutorial = !showTitle && (!waiting || !finished);
+    const { showTitle, running } = this.state;
+    const showTutorial = !showTitle && !running;
     return html`
       <div class="container">
         <img
