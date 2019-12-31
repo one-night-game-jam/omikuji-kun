@@ -61,6 +61,8 @@ export class Scene {
 
     this.canvas.addEventListener("click", e => {
       e.preventDefault();
+      requestDeviceMotionPermission();
+
       const {
         top,
         left,
@@ -78,6 +80,8 @@ export class Scene {
 
     this.canvas.addEventListener("touchstart", e => {
       e.preventDefault();
+      requestDeviceMotionPermission();
+
       const {
         top,
         left,
@@ -115,7 +119,6 @@ export class Scene {
   }
 
   start() {
-    requestDeviceMotionPermission();
     this.dispatch({
       ...this.store.state,
       showTitle: false
