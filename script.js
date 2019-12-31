@@ -28,10 +28,10 @@ const reducePower = timeStamp => {
   const delta = (timeStamp - lastTimeStamp) / 1000;
 
   let { power, seed } = store.state;
-  power -= power * 0.25 * delta;
+  power -= power * 0.9 * delta;
   seed += store.state.power - power;
 
-  if (power > 10) {
+  if (power > 5000) {
     store.dispatch({
       ...store.state,
       seed,
