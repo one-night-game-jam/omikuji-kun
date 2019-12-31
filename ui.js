@@ -5,39 +5,18 @@ import {
 
 const requestDeviceMotionPermission = async () => {
   if (typeof DeviceOrientationEvent.requestPermission === "function") {
-    const response = await DeviceOrientationEvent.requestPermission();
-    return response === "granted";
+    await DeviceOrientationEvent.requestPermission();
   }
 };
 
 export class UI extends Component {
   constructor({ store }) {
     super();
-
-    this.dispatch = state => store.dispatch(state);
     store.subscribe(state => this.setState(state));
   }
 
-  componentDidMount() {
-    addEventListener("devicemotion", e => {
-      const { x, y, z } = e.acceleration;
-      const v = Math.sqrt(x * x + y * y + z * z) / e.interval;
-      if (v < 1000) return;
-
-      this.dispatch({
-        power: this.state.power + v
-      });
-    });
-
-    const reducePower = () => {
-      let power = parseInt(this.state.power * 0.5);
-      if (power < 1) {
-        power = 0;
-      }
-      this.dispatch({ ...this.state, power });
-      setTimeout(reducePower, 100);
-    };
-    reducePower();
+  dispatch(state) {
+    this.props.store.dispatch(state);
   }
 
   render() {
@@ -52,14 +31,20 @@ export class UI extends Component {
           </button>
           <button
             type="button"
-            onClick=${() => this.dispatch({ ...this.state, power: 2000 })}
+            onClick=${() =>
+              this.dispatch({
+                ...this.state,
+                waiting: false,
+                power: 1000 * Math.random()
+              })}
           >
             shake
           </button>
         </div>
         <div class="screen">
           画面をタップするかスマホを振っておみくじを引こう!!<br />
-          パワー: ${this.state.power}
+          パワー: ${this.state.power}<br />
+          めくり回数: ${this.state.seed}
         </div>
       </div>
     `;
