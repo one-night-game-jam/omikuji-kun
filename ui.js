@@ -3,12 +3,6 @@ import {
   html
 } from "https://unpkg.com/htm@2/preact/standalone.module.js";
 
-const requestDeviceMotionPermission = async () => {
-  if (typeof DeviceOrientationEvent.requestPermission === "function") {
-    await DeviceOrientationEvent.requestPermission();
-  }
-};
-
 export class UI extends Component {
   constructor({ store }) {
     super();
@@ -34,23 +28,5 @@ export class UI extends Component {
         />
       </div>
     `;
-  }
-
-  start() {
-    return;
-    this.dispatch({
-      ...this.state,
-      showTitle: false
-    });
-  }
-
-  shake() {
-    return;
-    this.dispatch({
-      ...this.state,
-      waiting: false,
-      finished: false,
-      power: 50 + 50 * Math.random()
-    });
   }
 }
