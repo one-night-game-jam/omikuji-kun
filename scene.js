@@ -2,12 +2,6 @@ import * as THREE from "https://unpkg.com/three@0.112/build/three.module.js?modu
 import { OrbitControls } from "https://unpkg.com/three@0.112/examples/jsm/controls/OrbitControls.js?module";
 import { GLTFLoader } from "https://unpkg.com/three@0.112/examples/jsm/loaders/GLTFLoader.js?module";
 
-const requestDeviceMotionPermission = async () => {
-  if (typeof DeviceOrientationEvent.requestPermission === "function") {
-    await DeviceOrientationEvent.requestPermission();
-  }
-};
-
 export class Scene {
   constructor(canvas, store) {
     this.store = store;
@@ -61,7 +55,6 @@ export class Scene {
 
     this.canvas.addEventListener("click", e => {
       e.preventDefault();
-      requestDeviceMotionPermission();
 
       const {
         top,
@@ -80,7 +73,6 @@ export class Scene {
 
     this.canvas.addEventListener("touchstart", e => {
       e.preventDefault();
-      requestDeviceMotionPermission();
 
       const {
         top,

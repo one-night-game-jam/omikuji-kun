@@ -7,6 +7,20 @@ import { AudioPlayer } from "./audio-player.js";
 import { Scene } from "./scene.js";
 import { UI } from "./ui.js";
 
+if (typeof DeviceMotionEvent !== "undefined") {
+  const requestDeviceMotionPermissionButton = document.createElement("button");
+  requestDeviceMotionPermissionButton.classList.add("fullscreen-button");
+  requestDeviceMotionPermissionButton.addEventListener("click", async () => {
+    if (typeof DeviceMotionEvent.requestPermission === "function") {
+      await DeviceMotionEvent.requestPermission();
+    }
+    requestDeviceMotionPermissionButton.parentElement.removeChild(
+      requestDeviceMotionPermissionButton
+    );
+  });
+  document.body.appendChild(requestDeviceMotionPermissionButton);
+}
+
 const store = new Store({
   showTitle: true,
   waiting: true,
