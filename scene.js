@@ -9,10 +9,14 @@ export class Scene {
     this.canvas = canvas;
     const { width, height } = this.canvas.getBoundingClientRect();
 
+    this.raycaster = new THREE.Raycaster();
+    this.box = new THREE.Mesh(new THREE.BoxBufferGeometry(0.5, 1.5, 0.5));
+    this.box.position.set(0, 0.75, 0);
+
     this.clock = new THREE.Clock();
 
     this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
-    this.renderer.setClearColor(0x0088ff, 1);
+    this.renderer.setClearColor(0xf8f8f8, 1);
     this.renderer.setSize(width, height, false);
 
     this.scene = new THREE.Scene();
@@ -48,6 +52,60 @@ export class Scene {
         this.resultModels.push(gltf);
       });
     }
+
+    this.canvas.addEventListener("click", e => {
+      e.preventDefault();
+      this.handleClick(e);
+    });
+
+    window.shake = () => this.shake();
+  }
+
+  handleClick(e) {
+    const { showTitle, finished } = this.store.state;
+    const {
+      top,
+      left,
+      width,
+      height
+    } = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - left;
+    const y = e.clientY - top;
+    const mouse = new THREE.Vector2((x / width) * 2 - 1, -(y / height) * 2 + 1);
+
+    this.raycaster.setFromCamera(mouse, this.camera);
+    const intersects = this.raycaster.intersectObject(this.box);
+
+    if (intersects.length === 0) return;
+
+    if (showTitle) {
+      this.start();
+      return;
+    }
+
+    if (!showTitle && !finished) {
+      this.shake();
+    }
+  }
+
+  start() {
+    this.dispatch({
+      ...this.store.state,
+      showTitle: false
+    });
+  }
+
+  shake() {
+    this.dispatch({
+      ...this.store.state,
+      waiting: false,
+      finished: false,
+      power: 50 + 50 * Math.random()
+    });
+  }
+
+  dispatch(state) {
+    this.store.dispatch(state);
   }
 
   render() {

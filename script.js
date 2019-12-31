@@ -7,7 +7,9 @@ import { Scene } from "./scene.js";
 import { UI } from "./ui.js";
 
 const store = new Store({
+  showTitle: true,
   waiting: true,
+  finished: false,
   seed: 0,
   power: 0
 });
@@ -27,6 +29,8 @@ addEventListener("devicemotion", e => {
 
   store.dispatch({
     ...store.state,
+    waiting: false,
+    finished: false,
     power
   });
 });
@@ -35,15 +39,21 @@ let lastTimeStamp = performance.now();
 const reducePower = timeStamp => {
   const delta = (timeStamp - lastTimeStamp) / 1000;
 
-  let { power, seed } = store.state;
-  power -= power * 0.9 * delta;
-  seed += store.state.power - power;
+  let { power, seed, waiting } = store.state;
 
   if (power > 10) {
+    power -= power * 0.9 * delta;
+    seed += store.state.power - power;
     store.dispatch({
       ...store.state,
+      waiting: false,
       seed,
       power
+    });
+  } else if (!waiting) {
+    store.dispatch({
+      ...store.state,
+      finished: true
     });
   }
 
