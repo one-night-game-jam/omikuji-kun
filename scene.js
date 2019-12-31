@@ -55,23 +55,43 @@ export class Scene {
 
     this.canvas.addEventListener("click", e => {
       e.preventDefault();
-      this.handleClick(e);
+      const {
+        top,
+        left,
+        width,
+        height
+      } = e.currentTarget.getBoundingClientRect();
+      const x = e.clientX - left;
+      const y = e.clientY - top;
+      const mouse = new THREE.Vector2(
+        (x / width) * 2 - 1,
+        -(y / height) * 2 + 1
+      );
+      this.handleClick(mouse);
+    });
+
+    this.canvas.addEventListener("touchstart", e => {
+      e.preventDefault();
+      const {
+        top,
+        left,
+        width,
+        height
+      } = e.currentTarget.getBoundingClientRect();
+      const x = e.touches[0].clientX - left;
+      const y = e.touches[0].clientY - top;
+      const mouse = new THREE.Vector2(
+        (x / width) * 2 - 1,
+        -(y / height) * 2 + 1
+      );
+      this.handleClick(mouse);
     });
 
     window.shake = () => this.shake();
   }
 
-  handleClick(e) {
+  handleClick(mouse) {
     const { showTitle, finished } = this.store.state;
-    const {
-      top,
-      left,
-      width,
-      height
-    } = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - left;
-    const y = e.clientY - top;
-    const mouse = new THREE.Vector2((x / width) * 2 - 1, -(y / height) * 2 + 1);
 
     this.raycaster.setFromCamera(mouse, this.camera);
     const intersects = this.raycaster.intersectObject(this.box);
