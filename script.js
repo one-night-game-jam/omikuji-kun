@@ -9,7 +9,7 @@ import { UI } from "./ui.js";
 const store = new Store({
   showTitle: true,
   waiting: true,
-  finished: false,
+  running: false,
   seed: 0,
   power: 0
 });
