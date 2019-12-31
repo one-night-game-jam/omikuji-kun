@@ -60,7 +60,7 @@ addEventListener("devicemotion", e => {
   store.dispatch({
     ...store.state,
     waiting: false,
-    finished: false,
+    running: true,
     power
   });
 });
