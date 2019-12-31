@@ -1,6 +1,7 @@
 import * as THREE from "https://unpkg.com/three@0.112/build/three.module.js?module";
 import { OrbitControls } from "https://unpkg.com/three@0.112/examples/jsm/controls/OrbitControls.js?module";
 import { GLTFLoader } from "https://unpkg.com/three@0.112/examples/jsm/loaders/GLTFLoader.js?module";
+import { MODEL_NAMES, getModelIndex } from "./store.js";
 
 export class Scene {
   constructor(canvas, store) {
@@ -108,14 +109,12 @@ export class Scene {
 
   start() {
     this.dispatch({
-      ...this.store.state,
       showTitle: false
     });
   }
 
   shake() {
     this.dispatch({
-      ...this.store.state,
       waiting: false,
       running: true,
       power: 50 + 50 * Math.random()
@@ -127,7 +126,7 @@ export class Scene {
   }
 
   render() {
-    const { waiting, seed } = this.store.state;
+    const { waiting } = this.store.state;
 
     if (this.waitingModel) {
       this.waitingModel.scene.visible = waiting;
@@ -138,8 +137,7 @@ export class Scene {
     }
 
     if (!waiting && this.resultModels.length > 1) {
-      const i = parseInt(seed) % this.resultModels.length;
-      const model = this.resultModels[i];
+      const model = this.resultModels[getModelIndex(this.store.state)];
       model.scene.visible = true;
     }
 

@@ -32,13 +32,7 @@ if (typeof DeviceMotionEvent !== "undefined") {
   document.body.appendChild(requestDeviceMotionPermissionButton);
 }
 
-const store = new Store({
-  showTitle: true,
-  waiting: true,
-  running: false,
-  seed: 0,
-  power: 0
-});
+const store = new Store();
 
 const audioPlayer = new AudioPlayer();
 store.subscribe((state, prevState) => {
@@ -69,7 +63,6 @@ addEventListener("devicemotion", e => {
     );
 
   store.dispatch({
-    ...store.state,
     waiting: false,
     running: true,
     power
@@ -86,14 +79,12 @@ const reducePower = timeStamp => {
     power -= power * 0.9 * delta;
     seed += store.state.power - power;
     store.dispatch({
-      ...store.state,
       waiting: false,
       seed,
       power
     });
   } else if (!waiting) {
     store.dispatch({
-      ...store.state,
       running: false
     });
   }
