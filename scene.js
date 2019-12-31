@@ -46,11 +46,10 @@ export class Scene {
     });
 
     this.resultModels = [];
-    const resultModelNames = ["A", "B", "C", "D", "E"];
-    for (let name of resultModelNames) {
-      this.loader.load(`./models/${name}.glb`, gltf => {
+    for (let i = 0; i < MODEL_NAMES.length; i++) {
+      this.loader.load(`./models/${MODEL_NAMES[i]}.glb`, gltf => {
         this.scene.add(gltf.scene);
-        this.resultModels.push(gltf);
+        this.resultModels[i] = gltf;
       });
     }
 
