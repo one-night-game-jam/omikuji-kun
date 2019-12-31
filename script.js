@@ -18,6 +18,7 @@ addEventListener("devicemotion", e => {
   if (v < 1000) return;
 
   store.dispatch({
+    ...store.state,
     power: store.state.power + v
   });
 });
