@@ -20,35 +20,37 @@ export class UI extends Component {
   }
 
   render() {
+    const { showTitle, waiting, finished } = this.state;
+    const showTutorial = !showTitle && (!waiting || !finished);
     return html`
       <div class="container">
-        <div class="screen">
-          <button
-            type="button"
-            onClick=${() => requestDeviceMotionPermission()}
-          >
-            requestDeviceMotionPermission
-          </button>
-          <button
-            type="button"
-            onClick=${() =>
-              this.dispatch({
-                ...this.state,
-                waiting: false,
-                power: 50 + 50 * Math.random()
-              })}
-          >
-            shake
-          </button>
-        </div>
-        <div class="screen">
-          画面をタップするかスマホを振っておみくじを引こう!!<br />
-        </div>
-        <div class="screen screen--debug">
-          パワー: ${this.state.power}<br />
-          めくり回数: ${this.state.seed}
-        </div>
+        <img
+          class="image ${showTitle ? "image--visible" : ""}"
+          src="./images/TAP_ME_TO_START.png"
+        />
+        <img
+          class="image ${showTutorial ? "image--visible" : ""}"
+          src="./images/SHAKE_or_TAP_ME.png"
+        />
       </div>
     `;
+  }
+
+  start() {
+    return;
+    this.dispatch({
+      ...this.state,
+      showTitle: false
+    });
+  }
+
+  shake() {
+    return;
+    this.dispatch({
+      ...this.state,
+      waiting: false,
+      finished: false,
+      power: 50 + 50 * Math.random()
+    });
   }
 }
