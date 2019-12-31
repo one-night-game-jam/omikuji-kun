@@ -35,7 +35,7 @@ export class UI extends Component {
               this.dispatch({
                 ...this.state,
                 waiting: false,
-                power: 10000 + 1000 * Math.random()
+                power: 50 + 50 * Math.random()
               })}
           >
             shake

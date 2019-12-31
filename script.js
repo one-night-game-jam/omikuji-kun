@@ -17,9 +17,17 @@ addEventListener("devicemotion", e => {
   const v = Math.sqrt(x * x + y * y + z * z) / e.interval;
   if (v < 1000) return;
 
+  const power =
+    store.state.power +
+    parseInt(
+      parseInt(v)
+        .toString()
+        .substring(-2, 2)
+    );
+
   store.dispatch({
     ...store.state,
-    power: store.state.power + v / 10
+    power
   });
 });
 
@@ -31,7 +39,7 @@ const reducePower = timeStamp => {
   power -= power * 0.9 * delta;
   seed += store.state.power - power;
 
-  if (power > 5000) {
+  if (power > 10) {
     store.dispatch({
       ...store.state,
       seed,
