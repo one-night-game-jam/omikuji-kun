@@ -9,15 +9,26 @@ import { UI } from "./ui.js";
 
 if (typeof DeviceMotionEvent !== "undefined") {
   const requestDeviceMotionPermissionButton = document.createElement("button");
+
   requestDeviceMotionPermissionButton.classList.add("fullscreen-button");
-  requestDeviceMotionPermissionButton.addEventListener("click", async () => {
+
+  const requestDeviceMotionPermission = async () => {
     if (typeof DeviceMotionEvent.requestPermission === "function") {
       await DeviceMotionEvent.requestPermission();
     }
     requestDeviceMotionPermissionButton.parentElement.removeChild(
       requestDeviceMotionPermissionButton
     );
-  });
+  };
+  requestDeviceMotionPermissionButton.addEventListener(
+    "click",
+    requestDeviceMotionPermission
+  );
+  requestDeviceMotionPermissionButton.addEventListener(
+    "touchstart",
+    requestDeviceMotionPermission
+  );
+
   document.body.appendChild(requestDeviceMotionPermissionButton);
 }
 
