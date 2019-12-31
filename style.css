@@ -26,11 +26,25 @@ body {
 .image {
   display: none;
   width: 180px;
-  margin-top: 20px;
+  margin: 20px 0;
 }
 
 .image--visible {
   display: block;
+}
+
+.image--bottom {
+  align-self: flex-end;
+}
+
+.ar-link {
+  position: absolute;
+  bottom: 0;
+  pointer-events: all;
+}
+
+.ar-link__image {
+  width: 180px;
 }
 
 .button {
