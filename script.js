@@ -19,7 +19,7 @@ addEventListener("devicemotion", e => {
 
   store.dispatch({
     ...store.state,
-    power: store.state.power + v
+    power: store.state.power + v / 10
   });
 });
 
