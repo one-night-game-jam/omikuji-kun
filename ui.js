@@ -43,6 +43,8 @@ export class UI extends Component {
         </div>
         <div class="screen">
           画面をタップするかスマホを振っておみくじを引こう!!<br />
+        </div>
+        <div class="screen screen--debug">
           パワー: ${this.state.power}<br />
           めくり回数: ${this.state.seed}
         </div>
