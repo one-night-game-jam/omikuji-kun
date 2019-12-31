@@ -5,14 +5,14 @@ export class Store {
   }
 
   dispatch(state) {
-    this.state = state;
     for (let handler of this.handlers) {
-      handler(this.state);
+      handler(state, this.state);
     }
+    this.state = state;
   }
 
   subscribe(handler) {
     this.handlers.push(handler);
-    handler(this.state);
+    handler(this.state, this.state);
   }
 }

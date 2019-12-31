@@ -3,6 +3,7 @@ import {
   render
 } from "https://unpkg.com/htm@2/preact/standalone.module.js";
 import { Store } from "./store.js";
+import { AudioPlayer } from "./audio-player.js";
 import { Scene } from "./scene.js";
 import { UI } from "./ui.js";
 
@@ -12,6 +13,21 @@ const store = new Store({
   running: false,
   seed: 0,
   power: 0
+});
+
+const audioPlayer = new AudioPlayer();
+store.subscribe((state, prevState) => {
+  if (state.waiting && !state.running) {
+    audioPlayer.play("#title");
+  }
+  if (state.power > prevState.power) {
+    audioPlayer.stop("#title");
+    audioPlayer.play("#garagara");
+    audioPlayer.stop("#result");
+  }
+  if (!state.running && prevState.running) {
+    audioPlayer.play("#result");
+  }
 });
 
 addEventListener("devicemotion", e => {
