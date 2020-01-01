@@ -132,11 +132,12 @@ export class Scene {
     }
 
     for (let model of this.resultModels) {
+      if (!model) return;
       model.scene.visible = false;
     }
-
     if (!waiting && this.resultModels.length > 1) {
       const model = this.resultModels[getModelIndex(this.store.state)];
+      if (!model) return;
       model.scene.visible = true;
     }
 
