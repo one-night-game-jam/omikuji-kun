@@ -7,47 +7,27 @@ import { AudioPlayer } from "./audio-player.js";
 import { Scene } from "./scene.js";
 import { UI } from "./ui.js";
 
-if (typeof DeviceMotionEvent !== "undefined") {
-  const requestDeviceMotionPermissionButton = document.createElement("button");
-
-  requestDeviceMotionPermissionButton.classList.add("fullscreen-button");
-
-  const requestDeviceMotionPermission = async () => {
-    if (typeof DeviceMotionEvent.requestPermission === "function") {
-      await DeviceMotionEvent.requestPermission();
-    }
-    requestDeviceMotionPermissionButton.parentElement.removeChild(
-      requestDeviceMotionPermissionButton
-    );
-  };
-  requestDeviceMotionPermissionButton.addEventListener(
-    "click",
-    requestDeviceMotionPermission
-  );
-  requestDeviceMotionPermissionButton.addEventListener(
-    "touchstart",
-    requestDeviceMotionPermission
-  );
-
-  document.body.appendChild(requestDeviceMotionPermissionButton);
-}
-
 const store = new Store();
 
-const audioPlayer = new AudioPlayer();
-store.subscribe((state, prevState) => {
-  if (state.waiting && !state.running) {
-    audioPlayer.play("#title");
-  }
-  if (state.power > prevState.power) {
-    audioPlayer.stop("#title");
-    audioPlayer.play("#garagara");
-    audioPlayer.stop("#result");
-  }
-  if (!state.running && prevState.running) {
-    audioPlayer.play("#result");
-  }
-});
+const audioPlayer = new AudioPlayer(store);
+
+const requestPermissionButton = document.createElement("button");
+requestPermissionButton.classList.add("fullscreen-button");
+for (let eventType of ["click", "touchstart"]) {
+  requestPermissionButton.addEventListener(eventType, () => {
+    if (
+      window.DeviceMotionEvent &&
+      typeof DeviceMotionEvent.requestPermission === "function"
+    ) {
+      DeviceMotionEvent.requestPermission();
+    }
+    audioPlayer.resumeContext();
+
+    requestPermissionButton.parentElement.removeChild(requestPermissionButton);
+  });
+}
+
+document.body.appendChild(requestPermissionButton);
 
 addEventListener("devicemotion", e => {
   const { x, y, z } = e.acceleration;
