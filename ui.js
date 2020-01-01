@@ -10,9 +10,7 @@ const isARQuickLookAvailable = document
 const isAndroid = /android/i.test(navigator.userAgent);
 
 const ARLink = props => html`
-  <a ...${props} class="ar-link">
-    <img class="ar-link__image" src="./images/VIEW_in_AR.png" />
-  </a>
+  <a ...${props} class="ar-link"><img src=""/></a>
 `;
 
 export class UI extends Component {

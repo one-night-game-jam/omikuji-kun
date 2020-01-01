@@ -49,10 +49,10 @@ body {
 
 .ar-link {
   position: absolute;
-  bottom: 0;
-  pointer-events: all;
-}
-
-.ar-link__image {
+  bottom: 20px;
   width: 180px;
+  height: 90px;
+  pointer-events: all;
+  background-image: url("./images/VIEW_in_AR.png");
+  background-size: contain;
 }
