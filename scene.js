@@ -84,8 +84,6 @@ export class Scene {
       );
       this.handleClick(mouse);
     });
-
-    window.shake = () => this.shake();
   }
 
   handleClick(mouse) {
