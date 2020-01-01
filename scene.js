@@ -11,8 +11,6 @@ export class Scene {
     const { width, height } = this.canvas.getBoundingClientRect();
 
     this.raycaster = new THREE.Raycaster();
-    this.box = new THREE.Mesh(new THREE.BoxBufferGeometry(0.5, 1.5, 0.5));
-    this.box.position.set(0, 0.75, 0);
 
     this.clock = new THREE.Clock();
 
@@ -22,6 +20,17 @@ export class Scene {
 
     this.scene = new THREE.Scene();
     this.scene.add(new THREE.AmbientLight(0xffffff, 2));
+
+    const box = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.25, 0.25, 0.5, 8),
+      new THREE.MeshBasicMaterial({
+        transparent: true,
+        opacity: 0,
+        wireframe: true
+      })
+    );
+    this.scene.add(box);
+    box.position.set(0, 0.5, 0);
 
     this.camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 100);
     this.camera.position.set(0, 1, 2);
@@ -90,7 +99,7 @@ export class Scene {
     const { showTitle } = this.store.state;
 
     this.raycaster.setFromCamera(mouse, this.camera);
-    const intersects = this.raycaster.intersectObject(this.box);
+    const intersects = this.raycaster.intersectObjects(this.scene.children);
 
     if (intersects.length === 0) return;
 
@@ -130,13 +139,15 @@ export class Scene {
     }
 
     for (let model of this.resultModels) {
-      if (!model) return;
-      model.scene.visible = false;
+      if (model) {
+        model.scene.visible = false;
+      }
     }
     if (!waiting && this.resultModels.length > 1) {
       const model = this.resultModels[getModelIndex(this.store.state)];
-      if (!model) return;
-      model.scene.visible = true;
+      if (model) {
+        model.scene.visible = true;
+      }
     }
 
     if (this.animationMixer) {
