@@ -39,7 +39,7 @@ addEventListener("devicemotion", e => {
   const power = parseInt(
     parseInt(v)
       .toString()
-      .substring(-2, 2)
+      .substring(-3, 3)
   );
 
   store.dispatch({
