@@ -1,6 +1,6 @@
-import * as THREE from "https://unpkg.com/three@0.112/build/three.module.js?module";
-import { OrbitControls } from "https://unpkg.com/three@0.112/examples/jsm/controls/OrbitControls.js?module";
-import { GLTFLoader } from "https://unpkg.com/three@0.112/examples/jsm/loaders/GLTFLoader.js?module";
+import "https://unpkg.com/three@0.112.1/build/three.min.js";
+import "https://unpkg.com/three@0.112.1/examples/js/controls/OrbitControls.js";
+import "https://unpkg.com/three@0.112.1/examples/js/loaders/GLTFLoader.js";
 import { MODEL_NAMES, getModelIndex } from "./store.js";
 
 export class Scene {
@@ -41,7 +41,7 @@ export class Scene {
     this.camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 100);
     this.camera.position.set(0, 2, 4);
 
-    this.controls = new OrbitControls(this.camera, this.canvas);
+    this.controls = new THREE.OrbitControls(this.camera, this.canvas);
     this.controls.enablePan = false;
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.05;
@@ -50,7 +50,7 @@ export class Scene {
     this.controls.maxDistance = 10;
     this.controls.target = new THREE.Vector3(0, 1, 0);
 
-    this.loader = new GLTFLoader();
+    this.loader = new THREE.GLTFLoader();
 
     this.waitingModel = null;
     this.loader.load("models/waiting.glb", gltf => {
