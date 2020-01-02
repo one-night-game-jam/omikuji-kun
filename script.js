@@ -36,13 +36,11 @@ addEventListener("devicemotion", e => {
   const v = Math.sqrt(x * x + y * y + z * z) / e.interval;
   if (v < 1000) return;
 
-  const power =
-    store.state.power +
-    parseInt(
-      parseInt(v)
-        .toString()
-        .substring(-2, 2)
-    );
+  const power = parseInt(
+    parseInt(v)
+      .toString()
+      .substring(-2, 2)
+  );
 
   store.dispatch({
     waiting: false,
