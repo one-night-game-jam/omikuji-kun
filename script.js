@@ -13,19 +13,17 @@ const audioPlayer = new AudioPlayer(store);
 
 const requestPermissionButton = document.createElement("button");
 requestPermissionButton.classList.add("fullscreen-button");
-for (let eventType of ["click", "touchstart"]) {
-  requestPermissionButton.addEventListener(eventType, () => {
-    if (
-      window.DeviceMotionEvent &&
-      typeof DeviceMotionEvent.requestPermission === "function"
-    ) {
-      DeviceMotionEvent.requestPermission();
-    }
-    audioPlayer.resumeContext();
+requestPermissionButton.addEventListener("click", () => {
+  if (
+    window.DeviceMotionEvent &&
+    typeof DeviceMotionEvent.requestPermission === "function"
+  ) {
+    DeviceMotionEvent.requestPermission();
+  }
+  audioPlayer.resumeContext();
 
-    requestPermissionButton.parentElement.removeChild(requestPermissionButton);
-  });
-}
+  requestPermissionButton.parentElement.removeChild(requestPermissionButton);
+});
 
 document.body.appendChild(requestPermissionButton);
 
