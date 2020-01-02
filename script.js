@@ -20,7 +20,9 @@ requestPermissionButton.addEventListener("click", () => {
   ) {
     DeviceMotionEvent.requestPermission();
   }
+
   audioPlayer.resumeContext();
+  store.dispatch({ showTitle: false });
 
   requestPermissionButton.parentElement.removeChild(requestPermissionButton);
 });

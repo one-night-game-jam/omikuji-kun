@@ -120,39 +120,17 @@ export class Scene {
   }
 
   handleClick(mouse) {
-    const { showTitle } = this.store.state;
-
     this.raycaster.setFromCamera(mouse, this.camera);
     const intersects = this.raycaster.intersectObjects(this.scene.children);
-
     if (intersects.length === 0) return;
 
-    if (showTitle) {
-      this.start();
-      return;
+    if (!this.store.state.showTitle) {
+      this.store.dispatch({
+        waiting: false,
+        running: true,
+        power: 50 + 50 * Math.random()
+      });
     }
-
-    if (!showTitle) {
-      this.shake();
-    }
-  }
-
-  start() {
-    this.dispatch({
-      showTitle: false
-    });
-  }
-
-  shake() {
-    this.dispatch({
-      waiting: false,
-      running: true,
-      power: 50 + 50 * Math.random()
-    });
-  }
-
-  dispatch(state) {
-    this.store.dispatch(state);
   }
 
   render() {
