@@ -14,7 +14,10 @@ export class Scene {
 
     this.clock = new THREE.Clock();
 
-    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
+    this.renderer = new THREE.WebGLRenderer({
+      canvas: this.canvas,
+      antialias: true
+    });
     this.renderer.setClearColor(0xf8f8f8, 1);
     this.renderer.setSize(width, height, false);
 
