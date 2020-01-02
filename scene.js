@@ -19,10 +19,13 @@ export class Scene {
     this.renderer.setSize(width, height, false);
 
     this.scene = new THREE.Scene();
-    this.scene.add(new THREE.AmbientLight(0xffffff, 2));
+    this.scene.add(new THREE.AmbientLight(0xffffff, 1));
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(0.25, 2, 0.5);
+    this.scene.add(directionalLight);
 
     const box = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.25, 0.25, 0.5, 8),
+      new THREE.SphereGeometry(0.5, 6, 6),
       new THREE.MeshBasicMaterial({
         transparent: true,
         opacity: 0,
@@ -30,10 +33,10 @@ export class Scene {
       })
     );
     this.scene.add(box);
-    box.position.set(0, 0.5, 0);
+    box.position.set(0, 1, 0);
 
     this.camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 100);
-    this.camera.position.set(0, 1, 2);
+    this.camera.position.set(0, 2, 4);
 
     this.controls = new OrbitControls(this.camera, this.canvas);
     this.controls.enablePan = false;
@@ -42,7 +45,7 @@ export class Scene {
     this.controls.screenSpacePanning = false;
     this.controls.minDistance = 1;
     this.controls.maxDistance = 10;
-    this.controls.target = new THREE.Vector3(0, 0.6, 0);
+    this.controls.target = new THREE.Vector3(0, 1, 0);
 
     this.loader = new GLTFLoader();
 
