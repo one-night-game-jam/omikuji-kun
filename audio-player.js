@@ -17,8 +17,10 @@ export class AudioPlayer {
       }
       if (state.power > prevState.power) {
         this.stop("title");
-        this.play("garagara");
         this.stop("result");
+        if (!this.isPlaying("garagara")) {
+          this.play("garagara");
+        }
       }
       if (!state.running && prevState.running) {
         this.play("result");
@@ -56,14 +58,30 @@ export class AudioPlayer {
     bufferSource.buffer = file.audioBuffer;
     bufferSource.loop = file.loop;
     bufferSource.connect(this.ctx.destination);
-    bufferSource.start(0);
+    bufferSource.start();
 
     file.bufferSource = bufferSource;
+    file.lastPlayedAt = Date.now();
+  }
+
+  isPlaying(name) {
+    const file = this.files[name];
+    if (!file) return;
+    if (!file.audioBuffer) return;
+    if (!file.lastPlayedAt) return;
+
+    return file.lastPlayedAt + file.audioBuffer.duration * 1000 > Date.now();
   }
 
   stop(name) {
+    const file = this.files[name];
+    if (!file) return;
+
     const bufferSource = this.files[name].bufferSource;
     if (!bufferSource) return;
-    bufferSource.disconnect();
+    bufferSource.stop();
+
+    this.files[name].bufferSource = null;
+    this.files[name].lastPlayedAt = null;
   }
 }
