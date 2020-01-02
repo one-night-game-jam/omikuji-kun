@@ -23,8 +23,8 @@ export class Scene {
 
     this.scene = new THREE.Scene();
     this.scene.add(new THREE.AmbientLight(0xffffff, 1));
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-    directionalLight.position.set(0.25, 2, 0.5);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+    directionalLight.position.set(0.25, 1, 0.5);
     this.scene.add(directionalLight);
 
     const box = new THREE.Mesh(
