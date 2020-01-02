@@ -99,6 +99,24 @@ export class Scene {
       );
       this.handleClick(mouse);
     });
+
+    this.store.subscribe((state, prevState) => {
+      if (state.running && !prevState.running) {
+        if (!this.animationMixer) return;
+        this.animationMixer.stopAllAction();
+        this.animationMixer.setTime(0);
+        this.animationMixer = undefined;
+      }
+
+      if (!state.running && prevState.running) {
+        const gltf = this.resultModels[getModelIndex(state)];
+        const animation = gltf.animations[0];
+        if (!animation) return;
+
+        this.animationMixer = new THREE.AnimationMixer(gltf.scene);
+        this.animationMixer.clipAction(animation).play();
+      }
+    });
   }
 
   handleClick(mouse) {
