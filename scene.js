@@ -103,8 +103,8 @@ export class Scene {
     this.store.subscribe((state, prevState) => {
       if (state.running && !prevState.running) {
         if (!this.animationMixer) return;
-        this.animationMixer.stopAllAction();
         this.animationMixer.setTime(0);
+        this.animationMixer.stopAllAction();
         this.animationMixer = undefined;
       }
 
