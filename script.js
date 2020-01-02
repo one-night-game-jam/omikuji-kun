@@ -28,6 +28,8 @@ requestPermissionButton.addEventListener("click", () => {
 document.body.appendChild(requestPermissionButton);
 
 addEventListener("devicemotion", e => {
+  if (store.state.showTitle) return;
+
   const { x, y, z } = e.acceleration;
   const v = Math.sqrt(x * x + y * y + z * z) / e.interval;
   if (v < 1000) return;
